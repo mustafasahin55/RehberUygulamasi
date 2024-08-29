@@ -1,4 +1,4 @@
-package com.example.rehberuygulamasi.uix
+package com.example.rehberuygulamasi.uix.views
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
@@ -20,10 +20,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.rehberuygulamasi.data.entity.Kisiler
+import com.example.rehberuygulamasi.uix.viewmodel.KisiDetaySayfaViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun KisiDetaySayfa(gelenKisi:Kisiler) {
+fun KisiDetaySayfa(gelenKisi:Kisiler,kisiDetaySayfaViewModel: KisiDetaySayfaViewModel) {
     val tfKisiAd = remember {
         mutableStateOf("")
     }
@@ -39,9 +40,6 @@ fun KisiDetaySayfa(gelenKisi:Kisiler) {
     }
 
 
-    fun guncelle(kisi_id:Int,kisi_ad: String, kisi_tel: String) {
-        Log.e("KisiGuncelle", "$kisi_id-$kisi_ad-$kisi_tel")
-    }
 
     Scaffold(topBar = { TopAppBar(title = { Text(text = "kisi Kayit") }) }) { paddingValues ->
 
@@ -63,7 +61,7 @@ fun KisiDetaySayfa(gelenKisi:Kisiler) {
                     text = "Kişi Tel"
                 )
             })
-            Button(onClick = { guncelle(gelenKisi.kisi_id,tfKisiAd.value,tfKisiTel.value) },
+            Button(onClick = { kisiDetaySayfaViewModel.guncelle(gelenKisi.kisi_id,tfKisiAd.value,tfKisiTel.value) },
                 modifier = Modifier.size(250.dp,50.dp)
             ) {
                 Text(text = "Güncelle")
