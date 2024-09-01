@@ -10,7 +10,9 @@ import com.example.rehberuygulamasi.uix.viewmodel.AnasayfaViewModel
 import com.example.rehberuygulamasi.uix.viewmodel.KisiDetaySayfaViewModel
 import com.example.rehberuygulamasi.uix.viewmodel.KisiKayitSayfaViewModel
 import com.example.rehberuygulamasi.uix.views.SayfaGecisleri
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     val anasayfaViewModel: AnasayfaViewModel by viewModels()
     val kisiDetaySayfaViewModel: KisiDetaySayfaViewModel by viewModels()
