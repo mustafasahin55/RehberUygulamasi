@@ -183,9 +183,9 @@ fun Anasayfa(navController: NavController,anasayfaViewModel: AnasayfaViewModel) 
                             Column(
                                 modifier = Modifier.padding(all = 4.dp)
                             ) {
-                              Text(text = kisi.kisi_ad, fontSize = 20.sp)
+                              Text(text = kisi.kisi_ad!!, fontSize = 20.sp)
                                 Spacer(modifier = Modifier.size(4.dp))
-                              Text(text = kisi.kisi_tel)
+                              Text(text = kisi.kisi_tel!!)
                             }
 
                             IconButton(onClick = {
@@ -196,7 +196,7 @@ fun Anasayfa(navController: NavController,anasayfaViewModel: AnasayfaViewModel) 
                                     )
 
                                     if(sb == SnackbarResult.ActionPerformed){
-                                        anasayfaViewModel.sil(kisi_id = kisi.kisi_id)
+                                        anasayfaViewModel.sil(kisi_id = kisi.kisi_id!!)
                                     }
                                 }
 

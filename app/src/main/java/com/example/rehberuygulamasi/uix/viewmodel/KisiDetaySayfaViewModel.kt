@@ -11,9 +11,8 @@ import javax.inject.Inject
 @HiltViewModel
 class KisiDetaySayfaViewModel@Inject constructor(var kRepo: KisilerRepository): ViewModel() {
 
-     fun guncelle(kisi_id:Int,kisi_ad: String, kisi_tel: String){
-         CoroutineScope(Dispatchers.Main).launch {
+     fun guncelle(kisi_id:String,kisi_ad: String, kisi_tel: String){
              kRepo.guncelle(kisi_id,kisi_ad,kisi_tel)
-         }
+
      }
 }

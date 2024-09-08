@@ -14,27 +14,26 @@ class AnasayfaViewModel@Inject constructor(var kRepo: KisilerRepository) : ViewM
     var kisilerListesi= MutableLiveData<List<Kisiler>>()
 
 
+
     init {
         kisileriYukle()
     }
 
-    fun sil(kisi_id:Int){
-        CoroutineScope(Dispatchers.Main).launch {
-         kRepo.sil(kisi_id)
-            kisileriYukle()
+    fun sil(kisi_id:String){
 
-        }
+         kRepo.sil(kisi_id)
+
+
     }
     fun kisileriYukle(){
-        CoroutineScope(Dispatchers.Main).launch {
-           kisilerListesi.value=  kRepo.kisileriYukle()
-        }
+
+           kisilerListesi =  kRepo.kisileriYukle()
+
     }
 
-    fun ara(aramaKelimesi: String){
-        CoroutineScope(Dispatchers.Main).launch {
-            kisilerListesi.value=  kRepo.ara(aramaKelimesi)
-        }
+    fun ara(aramaKelimesi: String ){
+            kisilerListesi=  kRepo.ara(aramaKelimesi)
+
 
     }
 

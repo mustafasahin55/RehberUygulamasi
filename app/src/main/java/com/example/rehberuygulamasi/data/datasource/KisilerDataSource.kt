@@ -1,42 +1,80 @@
 package com.example.rehberuygulamasi.data.datasource
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.example.rehberuygulamasi.data.entity.Kisiler
+import com.google.firebase.firestore.CollectionReference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class KisilerDataSource {
+class KisilerDataSource(var collectionKisiler: CollectionReference) {
+    var kisilerListesi= MutableLiveData<List<Kisiler>>()
 
-    suspend fun kaydet(kisi_ad: String, kisi_tel: String) {
-        Log.e("KisiKaydet", "$kisi_ad-$kisi_tel")
+    fun kaydet(kisi_ad: String, kisi_tel: String) {
+        val yeniKisi = Kisiler("", kisi_ad, kisi_tel)
+        collectionKisiler.document().set(yeniKisi)
     }
 
-    suspend fun guncelle(kisi_id:Int,kisi_ad: String, kisi_tel: String) {
-        Log.e("KisiGuncelle", "$kisi_id-$kisi_ad-$kisi_tel")
-    }
-    suspend fun sil(kisi_id:Int) {
+    fun guncelle(kisi_id:String,kisi_ad: String, kisi_tel: String) {
+        val guncellenenKisi = HashMap<String,Any>()
+        guncellenenKisi["kisi_ad"] = kisi_ad
+        guncellenenKisi["kisi_tel"] = kisi_tel
+        collectionKisiler.document(kisi_id).update(guncellenenKisi)
 
-        Log.e("Kisi Sil", kisi_id.toString())
     }
+    fun sil(kisi_id:String) {
+        collectionKisiler.document(kisi_id).delete()
 
-    suspend fun kisileriYukle():List<Kisiler> = withContext(Dispatchers.IO){
-        val kisilerListesi = ArrayList<Kisiler>()
-        val kisi1 = Kisiler(1,"Mustafa","11111")
-        val kisi2 = Kisiler(1,"Mustaf","1111")
-        val kisi3 = Kisiler(1,"Musta","111")
-        kisilerListesi.add(kisi1)
-        kisilerListesi.add(kisi2)
-        kisilerListesi.add(kisi3)
-        return@withContext kisilerListesi
+
+
     }
 
-    suspend fun ara(aramaKelimesi: String):List<Kisiler> = withContext(Dispatchers.IO) {
-        val kisilerListesi = ArrayList<Kisiler>()
-        val kisi1 = Kisiler(1,"Mustafa","11111")
+    fun kisileriYukle():MutableLiveData<List<Kisiler>>{
+        collectionKisiler.addSnapshotListener { value, error ->
+            if (value != null) {
+               val liste = ArrayList<Kisiler>()
+                for(d in value.documents){
 
-        kisilerListesi.add(kisi1)
+                    val kisi = d.toObject(Kisiler::class.java)
+                    if(kisi != null){
+                        kisi.kisi_id = d.id
+                        liste.add(kisi)
 
-        return@withContext kisilerListesi
+                    }
+
+                }
+                kisilerListesi.value = liste
+            }
+
+        }
+        return kisilerListesi
+    }
+
+    fun ara(aramaKelimesi: String):MutableLiveData<List<Kisiler>> {
+
+
+
+        collectionKisiler.addSnapshotListener { value, error ->
+            if (value != null) {
+                val liste = ArrayList<Kisiler>()
+                for(d in value.documents){
+
+                    val kisi = d.toObject(Kisiler::class.java)
+                    if(kisi != null){
+                        kisi.kisi_id = d.id
+                        if(kisi.kisi_ad!!.lowercase().contains(aramaKelimesi.lowercase())){
+                            liste.add(kisi)
+
+                        }
+
+                    }
+
+                }
+                kisilerListesi.value = liste
+            }
+
+        }
+        return kisilerListesi
 
     }
 }

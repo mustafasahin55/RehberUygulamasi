@@ -13,9 +13,8 @@ class KisiKayitSayfaViewModel@Inject constructor(var kRepo: KisilerRepository) :
 
 
     fun kaydet(kisi_ad: String, kisi_tel: String) {
-        CoroutineScope(Dispatchers.Main).launch {
             kRepo.kaydet(kisi_ad, kisi_tel)
-        }
+
 
     }
 

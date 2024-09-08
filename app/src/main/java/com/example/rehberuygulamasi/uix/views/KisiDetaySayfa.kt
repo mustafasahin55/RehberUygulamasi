@@ -33,11 +33,6 @@ fun KisiDetaySayfa(gelenKisi:Kisiler,kisiDetaySayfaViewModel: KisiDetaySayfaView
     }
 
 
-    LaunchedEffect(key1 = true) {
-        tfKisiAd.value = gelenKisi.kisi_ad
-        tfKisiTel.value = gelenKisi.kisi_tel
-
-    }
 
 
 
@@ -61,7 +56,7 @@ fun KisiDetaySayfa(gelenKisi:Kisiler,kisiDetaySayfaViewModel: KisiDetaySayfaView
                     text = "Kişi Tel"
                 )
             })
-            Button(onClick = { kisiDetaySayfaViewModel.guncelle(gelenKisi.kisi_id,tfKisiAd.value,tfKisiTel.value) },
+            Button(onClick = { kisiDetaySayfaViewModel.guncelle(gelenKisi.kisi_id!!,tfKisiAd.value,tfKisiTel.value) },
                 modifier = Modifier.size(250.dp,50.dp)
             ) {
                 Text(text = "Güncelle")
